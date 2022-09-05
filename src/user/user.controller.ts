@@ -1,12 +1,21 @@
-import { Body, Controller, Get, Post, Put, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
-import { User } from "../common/decorators/user.decorator";
-import { CreateUserDto } from "./dto/createUser.dto";
-import { LoginUserDto } from "./dto/loginUser.dto";
-import { AuthGuard } from "../guards/auth.guard";
-import { UserResponseInterface } from "../common/interfaces/userResponse.interface";
-import { UserService } from "./user.service";
-import { UpdateUserDto } from "./dto/updateUser.dto";
-import { UserInterface } from "../common/models/user.model";
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { User } from '../common/decorators/user.decorator';
+import { CreateUserDto } from './dto/createUser.dto';
+import { LoginUserDto } from './dto/loginUser.dto';
+import { AuthGuard } from '../guards/auth.guard';
+import { UserResponseInterface } from '../common/interfaces/userResponse.interface';
+import { UserService } from './user.service';
+import { UpdateUserDto } from './dto/updateUser.dto';
+import { UserInterface } from '../common/models/user.model';
 
 @Controller('users')
 export class UserController {

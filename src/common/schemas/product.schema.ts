@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const ProductSchema = new mongoose.Schema({
   productName: { type: String, required: true },
