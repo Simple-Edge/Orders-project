@@ -16,7 +16,7 @@ async function bootstrap() {
     AppModule,
     new ExpressAdapter(express()),
     {
-      bodyParser: false,
+      bodyParser: true,
       cors: true,
     },
   );

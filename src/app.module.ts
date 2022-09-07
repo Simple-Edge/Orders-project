@@ -6,12 +6,14 @@ import { AuthMiddleWare } from './middleware/auth.middleware';
 import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { configService } from './config/config.service';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(configService.get('MONGODB_CONNECTION_STRING')),
     ProductModule,
     UserModule,
+    OrderModule,
   ],
   providers: [AppService],
   controllers: [AppController],
