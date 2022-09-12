@@ -1,5 +1,11 @@
-import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { ExpressRequestInterface } from "../common/interfaces/express-request.interface";
+import {
+  CanActivate,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
+import { ExpressRequestInterface } from '../common/interfaces/express-request.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
