@@ -1,15 +1,25 @@
-import mongoose from 'mongoose';
-import { ProductSchema } from './product.schema';
+import mongoose, { Schema } from 'mongoose';
 import { UserSchema } from './user.schema';
 
 export const OrderSchema = new mongoose.Schema({
-    createdAt: {type: Date, default: Date.now()},
-    
-    customerInfo: {type: UserSchema,required: true},
+    customerInfo: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 
-    orderInfo: [{type: ProductSchema,required: true}],
-   
-    totalPrice: {type: Number,required: true},
-   
-    readyToTake: {type: Boolean, default: false},
+    description: { type: String, default: '' },
+
+    products: [
+        {
+            productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+            count: { type: Number, required: true },
+        }
+    ],
+
+    totalPrice: { type: Number, required: true },
+
+    readyToTake: Date,
+
+    created: { type: Date, default: Date.now() },
+
+    updated: Date,
+
+    deleted: Date,
 });

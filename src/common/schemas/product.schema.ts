@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export const ProductSchema = new mongoose.Schema({
-  productName: { type: String, required: true },
+  name: { type: String, required: true },
 
   description: { type: String, default: '' },
 
@@ -9,9 +9,15 @@ export const ProductSchema = new mongoose.Schema({
 
   priceWithDiscount: { type: Number, required: false },
 
-  productCount: { type: String, required: true },
+  count: { type: Number, required: true },
 
   discount: { type: Number, default: 0 },
+
+  created: {type: Date, default: Date.now()},
+  
+  updated: Date,
+
+  deleted: Date,
 });
 
 // function applyDiscount() {

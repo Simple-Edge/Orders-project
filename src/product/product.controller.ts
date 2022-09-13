@@ -10,6 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ProductInterface } from 'src/common/models/product.model';
 import { AuthGuard } from '../guards/auth.guard';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { UpdateProductDto } from './dto/updateProduct.dto';
@@ -20,7 +21,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  public async findProducts() {
+  public async findProducts(): Promise<ProductInterface[]> {
     return await this.productService.findProducts();
   }
 
@@ -39,7 +40,7 @@ export class ProductController {
   public async updateProduct(
     @Body('product') productUpdateDto: UpdateProductDto,
     @Param('productId') productId: string,
-  ) {
+  ): Promise<ProductInterface> {
     return await this.productService.updateProduct(productUpdateDto, productId);
   }
 

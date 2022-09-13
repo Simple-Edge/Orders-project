@@ -5,6 +5,7 @@ import { AuthGuard } from "../guards/auth.guard";
 import { CreateOrderDto } from "./dto/createOrder.dto";
 import { OrderService } from "./order.service";
 import { ProductInterface } from "src/common/models/product.model";
+import { OrderInterface } from "src/common/models/order.model";
 
 @Controller('orders')
 export class OrderController {
@@ -16,12 +17,15 @@ export class OrderController {
     async createOrder(
         @User() currentUser: UserInterface,
         @Body('order') createOrderDto: CreateOrderDto,
-    ) {
-        return this.orderService.createOrder(currentUser, createOrderDto)
+    ): Promise<OrderInterface> {
+        return await this.orderService.createOrder(currentUser, createOrderDto)
     }
 
     @Get()
-    public async findProducts() {
+    @UseGuards(AuthGuard)
+    public async findOrders(
+        @User() currentUser: UserInterface,
+    ): Promise<OrderInterface[]> {
         return await this.orderService.findOrders();
     }
 
@@ -37,8 +41,9 @@ export class OrderController {
     @Put(':orderId')
     @UseGuards(AuthGuard)
     async makeOrderReady(
+        @User() currentUser: UserInterface,
         @Param('orderId') productId: string
-    ) {
+    ): Promise<OrderInterface> {
         return await this.orderService.makeOrderReady(productId)
     }
 

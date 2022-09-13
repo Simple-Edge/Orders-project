@@ -5,5 +5,10 @@ export interface UserInterface extends Document {
   lastName: string;
   email: string;
   password: string;
-  userOrders: string[];
+  created: Date;
+  updated?: Date;
+  deleted?: Date;
+  lastActivity: Date;
 }
+
+// role: RoleInterface;

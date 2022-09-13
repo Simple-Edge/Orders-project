@@ -12,11 +12,11 @@ export class ProductService {
     private readonly productModel: Model<ProductInterface>,
   ) {}
 
-  async findProducts() {
+  public async findProducts(): Promise<ProductInterface[]> {
     return this.productModel.find();
   }
 
-  async createProduct(createProductDto: CreateProductDto) {
+  public async createProduct(createProductDto: CreateProductDto): Promise<ProductInterface>{
     const newProduct = new this.productModel();
     Object.assign(newProduct, createProductDto);
     newProduct.priceWithDiscount = this.applyDiscount(newProduct);
@@ -24,7 +24,7 @@ export class ProductService {
     return await newProduct.save();
   }
 
-  async updateProduct(productUpdateDto: UpdateProductDto, productId: string) {
+  public async updateProduct(productUpdateDto: UpdateProductDto, productId: string): Promise<ProductInterface>{
     const product = await this.findProductById(productId);
 
     if (!product) {
@@ -33,24 +33,25 @@ export class ProductService {
 
     Object.assign(product, productUpdateDto);
     product.priceWithDiscount = this.applyDiscount(product);
+    product.updated = new Date();
     return await product.save();
   }
 
-  async deleteProduct(productId: string): Promise<any> {
+  public async deleteProduct(productId: string): Promise<any> {
     const product = await this.findProductById(productId);
 
     if (!product) {
       throw new NotFoundException('Product does not exist');
     }
-
-    return this.productModel.deleteOne({ _id: productId });
+    product.deleted = new Date()
+    return await this.productModel.deleteOne({ _id: productId });
   }
 
-  async findProductById(productId: string) {
+  public async findProductById(productId: string): Promise<ProductInterface>{
     return this.productModel.findById(productId);
   }
 
-  applyDiscount(productData: ProductInterface): number {
+  private applyDiscount(productData: ProductInterface): number {
     return +(productData.price * ((100 - productData.discount) / 100)).toFixed(
       2,
     );

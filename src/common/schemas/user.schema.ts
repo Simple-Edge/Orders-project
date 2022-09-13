@@ -10,7 +10,15 @@ export const UserSchema = new mongoose.Schema({
 
   password: { type: String, required: true },
 
-  userOrders: [{type: String}]
+  created: {type: Date, default: Date.now()},
+  
+  updated: Date,
+
+  deleted: Date,
+
+  lastActivity: {type: Date, default: Date.now()},
 });
 
-UserSchema.index({ email: 1 }, { unique: true });
+// role: RoleSchema,
+
+// UserSchema.index({ email: 1 }, { unique: true });

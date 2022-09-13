@@ -45,8 +45,9 @@ export class UserController {
   async UpdateCurrentUser(
     @User('id') currentUserId: string,
     @Body('user') updateUserDto: UpdateUserDto,
-  ): Promise<UserInterface> {
-    return this.userService.updateUser(currentUserId, updateUserDto);
+  ): Promise<UserResponseInterface> {
+    const user = await this.userService.updateUser(currentUserId, updateUserDto);
+    return this.userService.buildUserResponse(user);
   }
 
   @Get()

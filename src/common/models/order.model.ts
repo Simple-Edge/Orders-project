@@ -3,11 +3,17 @@ import { ProductInterface } from './product.model';
 import { UserInterface } from './user.model';
 
 export interface OrderInterface extends Document {
-    createdAt: Date,
-    customerInfo: UserInterface,
-    orderInfo: ProductInterface[],
-    totalPrice: number,
-    readyToTake?: boolean,
+    customerInfo: string;
+    description?: string;
+    products: [{
+        productId: string | ProductInterface;
+        count: number;
+    }];
+    totalPrice: number;
+    readyToTake?: Date;
+    created: Date;
+    updated?: Date;
+    deleted?: Date;
 }
 
 

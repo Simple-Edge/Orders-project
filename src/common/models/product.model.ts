@@ -1,10 +1,13 @@
 import { Document } from 'mongoose';
 
 export interface ProductInterface extends Document {
-  productName: string;
+  name: string;
   description?: string;
   price: number;
   priceWithDiscount?: number;
-  productCount: number;
+  count: number;
   discount?: number;
+  created: Date;
+  updated?: Date;
+  deleted?: Date;
 }

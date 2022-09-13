@@ -1,8 +1,14 @@
-import { IsArray, IsNotEmpty } from "class-validator"
-import { ProductInterface } from "../../common/models/product.model"
+import { IsAlpha, IsArray, IsNotEmpty } from "class-validator"
 
 export class CreateOrderDto {
+    @IsAlpha()
+    description: string;
     @IsNotEmpty()
     @IsArray()
-    orderInfo: ProductInterface[]
+    products:[
+        {
+            productId: string, 
+            count: number,
+        }
+    ];
 }
