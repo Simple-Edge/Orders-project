@@ -1,6 +1,5 @@
 import { Document } from 'mongoose';
 import { ProductInterface } from './product.model';
-import { UserInterface } from './user.model';
 
 export interface OrderInterface extends Document {
     customerInfo: string;

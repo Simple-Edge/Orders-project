@@ -1,28 +1,10 @@
-<<<<<<< HEAD
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
-import { ProductInterface } from 'src/common/models/product.model';
-import { AuthGuard } from '../guards/auth.guard';
-import { CreateProductDto } from './dto/createProduct.dto';
-import { UpdateProductDto } from './dto/updateProduct.dto';
-import { ProductService } from './product.service';
-=======
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { ProductInterface } from "../common/models/product.model";
 import { AuthGuard } from "../guards/auth.guard";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
+import { CreateProductDto } from "./dto/createProduct.dto";
+import { UpdateProductDto } from "./dto/updateProduct.dto";
+
 import { ProductService } from "./product.service";
->>>>>>> 614ecf373bb3b7ec44abf864b8d81b5411afc477
 
 @Controller('products')
 export class ProductController {

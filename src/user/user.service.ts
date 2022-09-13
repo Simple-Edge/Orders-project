@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
 import { UserInterface } from '../common/models/user.model';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { JWT_SECRET } from '../../config';
-import { LoginUserDto } from './dto/login-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto } from './dto/loginUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserResponseInterface } from '../common/interfaces/user-response.interface';
 
 @Injectable()

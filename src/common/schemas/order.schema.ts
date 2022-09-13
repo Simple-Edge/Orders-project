@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import { UserSchema } from './user.schema';
 
 export const OrderSchema = new mongoose.Schema({
     customerInfo: { type: Schema.Types.ObjectId, ref: 'User', required: true },
