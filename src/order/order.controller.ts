@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes, V
 import { UserInterface } from "../common/models/user.model";
 import { User } from "../common/decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
-import { CreateOrderDto } from "./dto/createOrder.dto";
+import { CreateOrderDto } from "./dto/create-order.dto";
 import { OrderService } from "./order.service";
 import { OrderInterface } from "../common/models/order.model";
 

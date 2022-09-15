@@ -1,23 +1,26 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FavoriteProductsInterface } from '../common/models/product.favorite-products.model';
 
 import { ProductInterface } from '../common/models/product.model';
-import { CreateProductDto } from './dto/createProduct.dto';
-import { UpdateProductDto } from './dto/updateProduct.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel('Product')
     private readonly productModel: Model<ProductInterface>,
-  ) {}
+    @InjectModel('FavoriteProduct')
+    private readonly favoriteProductsModel: Model<FavoriteProductsInterface>,
+  ) { }
 
   public async findProducts(): Promise<ProductInterface[]> {
     return this.productModel.find();
   }
 
-  public async createProduct(createProductDto: CreateProductDto): Promise<ProductInterface>{
+  public async createProduct(createProductDto: CreateProductDto): Promise<ProductInterface> {
     const newProduct = new this.productModel();
     Object.assign(newProduct, createProductDto);
     newProduct.priceWithDiscount = this.applyDiscount(newProduct);
@@ -25,7 +28,7 @@ export class ProductService {
     return await newProduct.save();
   }
 
-  public async updateProduct(productUpdateDto: UpdateProductDto, productId: string): Promise<ProductInterface>{
+  public async updateProduct(productUpdateDto: UpdateProductDto, productId: string): Promise<ProductInterface> {
     const product = await this.findProductById(productId);
 
     if (!product) {
@@ -48,7 +51,62 @@ export class ProductService {
     return await this.productModel.deleteOne({ _id: productId });
   }
 
-  public async findProductById(productId: string): Promise<ProductInterface>{
+  public async addProductToFavorites(currentUserId: string, productId: string) {
+    const product = await this.findProductById(productId);
+
+    if (!product) {
+      throw new NotFoundException('Product does not exist');
+    }
+
+    let favoriteList = await this.favoriteProductsModel.findOne({ user: currentUserId });
+
+    if (favoriteList) {
+      const isNotFavorited = favoriteList.products.findIndex(
+        productInFavorites => productInFavorites == productId
+      ) === -1;
+      if (isNotFavorited) {
+        favoriteList.products.push(productId);
+        favoriteList.updated = new Date()
+        product.favoriteCount++
+        await product.save()
+        return await favoriteList.save()
+      }
+      return favoriteList
+    }
+
+    favoriteList = new this.favoriteProductsModel();
+    favoriteList.user = currentUserId;
+    favoriteList.products.push(productId)
+    product.favoriteCount++
+    await product.save()
+    return await favoriteList.save()
+
+  }
+
+  public async deleteProductFromFavorites(currentUserId: string, productId: string) {
+    const product = await this.findProductById(productId);
+
+    if (!product) {
+      throw new NotFoundException('Product does not exist');
+    }
+
+    const favoriteList = await this.favoriteProductsModel.findOne({ user: currentUserId });
+
+    const productIndex = favoriteList.products.findIndex(
+      productInFavorites => productInFavorites == productId
+    );
+    if (productIndex != -1) {
+      favoriteList.products.splice(productIndex, 1)
+      favoriteList.updated = new Date()
+      product.favoriteCount--
+      await product.save()
+      return await favoriteList.save()
+    }
+    return favoriteList
+
+  }
+
+  public async findProductById(productId: string): Promise<ProductInterface> {
     return this.productModel.findById(productId);
   }
 

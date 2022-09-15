@@ -7,6 +7,7 @@ export interface ProductInterface extends Document {
   priceWithDiscount?: number;
   count: number;
   discount?: number;
+  favoriteCount: number;
   created: Date;
   updated?: Date;
   deleted?: Date;

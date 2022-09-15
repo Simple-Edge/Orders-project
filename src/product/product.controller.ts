@@ -1,8 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { User } from "../common/decorators/user.decorator";
 import { ProductInterface } from "../common/models/product.model";
 import { AuthGuard } from "../guards/auth.guard";
-import { CreateProductDto } from "./dto/createProduct.dto";
-import { UpdateProductDto } from "./dto/updateProduct.dto";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 import { ProductService } from "./product.service";
 
@@ -39,4 +40,26 @@ export class ProductController {
   public async deleteProduct(@Param('productId') productId: string) {
     return await this.productService.deleteProduct(productId);
   }
+
+  @Post(':productId/favorite')
+    @UseGuards(AuthGuard)
+    async addProductToFavorites (
+        @User('id')
+        currentUserId: string,
+        @Param('productId')
+        productId: string,
+    ) {
+        return await this.productService.addProductToFavorites(currentUserId,productId)
+    }
+
+    @Delete(':productId/favorite')
+    @UseGuards(AuthGuard)
+    async deleteProductFromFavorites (
+        @User('id')
+        currentUserId: string,
+        @Param('productId')
+        productId: string,
+    ) {
+      return await this.productService.deleteProductFromFavorites(currentUserId,productId)
+    }
 }

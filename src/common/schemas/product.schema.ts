@@ -13,6 +13,8 @@ export const ProductSchema = new mongoose.Schema({
 
   discount: { type: Number, default: 0 },
 
+  favoriteCount: {type: Number, default: 0},
+
   created: {type: Date, default: Date.now()},
   
   updated: Date,
