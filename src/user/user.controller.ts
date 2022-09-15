@@ -9,12 +9,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { User } from '../common/decorators/user.decorator';
-import { CreateUserDto } from './dto/createUser.dto';
-import { LoginUserDto } from './dto/loginUser.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { UserResponseInterface } from '../common/interfaces/user-response.interface';
 import { UserService } from './user.service';
-import { UpdateUserDto } from './dto/updateUser.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 
 @Controller('users')
