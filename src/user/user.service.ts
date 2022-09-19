@@ -10,7 +10,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponseInterface } from '../common/interfaces/user-response.interface';
 import { FavoriteProductsInterface } from '../common/models/product.favorite-products.model';
-import { UserToOrdersInterface } from '../common/models/order.userToOrders.model';
+import { UserToOrdersInterface } from '../common/models/order.user-to-orders.model';
 
 @Injectable()
 export class UserService {

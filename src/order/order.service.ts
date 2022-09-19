@@ -5,7 +5,7 @@ import { UserInterface } from '../common/models/user.model';
 import { OrderInterface } from '../common/models/order.model';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ProductInterface } from '../common/models/product.model';
-import { UserToOrdersInterface } from '../common/models/order.userToOrders.model';
+import { UserToOrdersInterface } from '../common/models/order.user-to-orders.model';
 
 
 @Injectable()

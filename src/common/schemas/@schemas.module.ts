@@ -6,6 +6,7 @@ import { OrderSchema } from './order.schema';
 import { UserToOrdersSchema } from './order.userToOrders.schema';
 import { ProductSchema } from './product.schema';
 import { UserSchema } from './user.schema';
+import { CommentSchema } from './product.comment.schema';
 
 const SCHEMAS: Array<{ name: string; schema: Schema }> = [
   { name: 'Product', schema: ProductSchema },
@@ -13,6 +14,7 @@ const SCHEMAS: Array<{ name: string; schema: Schema }> = [
   { name: 'Order', schema: OrderSchema },
   { name: 'UserToOrder', schema: UserToOrdersSchema },
   { name: 'FavoriteProduct', schema: FavoriteProductsSchema },
+  { name: 'Comment', schema: CommentSchema },
 ];
 
 @Module({
