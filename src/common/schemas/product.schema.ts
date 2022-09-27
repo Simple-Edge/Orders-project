@@ -22,6 +22,8 @@ export const ProductSchema = new mongoose.Schema({
   deleted: Date,
 });
 
+ProductSchema.index({ name: 'text'})
+
 // function applyDiscount() {
 //     this.priceWithDiscount =  +(this.price * ((100 - this.discount)/100)).toFixed(2)
 // }

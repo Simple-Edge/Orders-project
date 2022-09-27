@@ -23,7 +23,7 @@ export class UserController {
 
   @Post()
   @UsePipes(new ValidationPipe())
-  async createUser(
+  public async createUser(
     @Body('user') userDto: CreateUserDto,
   ): Promise<UserResponseInterface> {
     const user = await this.userService.createUser(userDto);
@@ -32,7 +32,7 @@ export class UserController {
 
   @Post('login')
   @UsePipes(new ValidationPipe())
-  async loginUser(
+  public async loginUser(
     @Body('user') userDto: LoginUserDto,
   ): Promise<UserResponseInterface> {
     const user = await this.userService.loginUser(userDto);
@@ -42,7 +42,7 @@ export class UserController {
   @Put()
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
-  async UpdateCurrentUser(
+  public async UpdateCurrentUser(
     @User('id') currentUserId: string,
     @Body('user') updateUserDto: UpdateUserDto,
   ): Promise<UserResponseInterface> {
@@ -52,7 +52,7 @@ export class UserController {
 
   @Get()
   @UseGuards(AuthGuard)
-  async currentUser(
+  public async currentUser(
     @User('id') currentUserId: string,
   ): Promise<UserResponseInterface> {
     const user = await this.userService.currentUser(currentUserId);

@@ -8,6 +8,7 @@ import { ProductInterface } from '../common/models/product.model';
 import { CommentDto } from './dto/create-update-comment.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductResponseInterface } from '../common/interfaces/product-responce.interface';
 
 @Injectable()
 export class ProductService {
@@ -20,8 +21,24 @@ export class ProductService {
     private readonly commentModel: Model<CommentInterface>,
   ) { }
 
-  public async findProducts(): Promise<ProductInterface[]> {
-    return this.productModel.find();
+  public async findProducts(query: any): Promise<ProductInterface[]> {
+    let filter = {}
+    let projection = {}
+    
+    if (query.page <= 0){
+      query.page = 1;
+    }
+
+    const pagination = {limit: 5,skip: (query.page - 1) * 5}
+    
+    if (query.name){
+      filter = {$text: {$search: `"${query.name}"`,$caseSensitive: false }};
+      projection = { score: { $meta: "textScore" } };
+      return await this.productModel.find(filter,projection,pagination).sort( { score: { $meta: "textScore" } } );
+    }
+
+    return await this.productModel.find(filter,projection,pagination)
+        
   }
 
   public async createProduct(createProductDto: CreateProductDto): Promise<ProductInterface> {
@@ -166,9 +183,9 @@ export class ProductService {
       throw new NotFoundException('Comment does not exist');
     }
 
-    // if (currentUserId == comment.user) {
-    //   throw new HttpException(`You can\'t ${option} your comment`, HttpStatus.FORBIDDEN);
-    // }
+    if (currentUserId == comment.user) {
+      throw new HttpException(`You can\'t ${option} your comment`, HttpStatus.FORBIDDEN);
+    }
     
     const likeInd = comment.usersLikes.findIndex(
       usersLiked => usersLiked == currentUserId
@@ -209,12 +226,20 @@ export class ProductService {
   }
 
   public async findProductById(productId: string): Promise<ProductInterface> {
-    return this.productModel.findById(productId);
+    return await this.productModel.findById(productId);
   }
 
   private applyDiscount(productData: ProductInterface): number {
     return +(productData.price * ((100 - productData.discount) / 100)).toFixed(
       2,
     );
+  }
+
+  public async buildProductResponse(product: ProductInterface): Promise<ProductResponseInterface> {
+    const comments = await this.commentModel.find({product: product._id}).populate('commentThread')
+    return {
+      product: product,
+      comments: comments,
+    }
   }
 }

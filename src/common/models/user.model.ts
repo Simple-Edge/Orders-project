@@ -5,6 +5,7 @@ export interface UserInterface extends Document {
   lastName: string;
   email: string;
   password: string;
+  role: string;
   created: Date;
   updated?: Date;
   deleted?: Date;
