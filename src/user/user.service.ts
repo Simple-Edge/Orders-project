@@ -95,9 +95,7 @@ export class UserService {
   }
 
   public async currentUser(currentUserId: string): Promise<UserInterface> {
-    const user = await this.findById(currentUserId);
-
-    return await user.save();
+    return await this.findById(currentUserId);
   }
 
   public async findById(id: string): Promise<UserInterface> {

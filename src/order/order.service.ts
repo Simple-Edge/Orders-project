@@ -49,6 +49,10 @@ export class OrderService {
             throw new HttpException('Order does not exist', HttpStatus.NOT_FOUND);
         }
 
+        if (order.customerInfo.toString() != currentUser._id.toString()) {
+            throw new HttpException('Thats not your order', HttpStatus.FORBIDDEN);
+        }
+
         let userToOrder = await this.userToOrderModel.findOne({ user: currentUser._id })
         const orderIndex = userToOrder.orders.findIndex(
             id => id == orderId

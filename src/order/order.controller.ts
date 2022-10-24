@@ -48,10 +48,10 @@ export class OrderController {
   @Delete(':orderId')
   @UseGuards(AuthGuard)
   public async deleteOrder(
-    @Param('orderId') productId: string,
+    @Param('orderId') orderId: string,
     @User() currentUser: UserInterface,
   ) {
-    return await this.orderService.deleteOrder(productId, currentUser);
+    return await this.orderService.deleteOrder(orderId, currentUser);
   }
 
   @Put(':orderId')
