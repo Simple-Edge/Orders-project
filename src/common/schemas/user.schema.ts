@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,6 +8,8 @@ export const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
 
   password: { type: String, required: true },
+
+  role: {type: Schema.Types.ObjectId, ref: 'Role',},
 
   created: {type: Date, default: Date.now()},
   

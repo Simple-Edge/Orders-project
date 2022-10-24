@@ -3,16 +3,16 @@ import { IsAlpha, IsEmail, IsNotEmpty, IsNumber } from "class-validator";
 export class CreateUserDto {
     @IsNotEmpty()
     @IsAlpha()
-    name: string;
+    readonly name: string;
 
     @IsNotEmpty()
     @IsAlpha()
-    lastName: string;
+    readonly lastName: string;
 
     @IsNotEmpty()
     @IsEmail()
-    email: string;
+    readonly email: string;
 
     @IsNotEmpty()
-    password: string;
+    readonly password: string;
 }

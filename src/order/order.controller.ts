@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { UserInterface } from "../common/models/user.model";
 import { User } from "../common/decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
-import { CreateOrderDto } from "./dto/createOrder.dto";
+import { CreateOrderDto } from "./dto/create-order.dto";
 import { OrderService } from "./order.service";
 import { OrderInterface } from "../common/models/order.model";
 
@@ -13,7 +13,7 @@ export class OrderController {
   @Post()
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
-  async createOrder(
+  public async createOrder(
     @User() currentUser: UserInterface,
     @Body('order') createOrderDto: CreateOrderDto,
   ): Promise<OrderInterface> {
@@ -21,24 +21,42 @@ export class OrderController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   public async findOrders(
     @User() currentUser: UserInterface,
+    @Query() query: any,
   ): Promise<OrderInterface[]> {
-    return await this.orderService.findOrders();
+    return await this.orderService.findOrders(currentUser,query);
+  }
+
+  @Get('users')
+  @UseGuards(AuthGuard)
+  public async getOrdersCountAndUserId(
+    @User() currentUser: UserInterface,
+  ) {
+    return await this.orderService.getOrdersCountAndUserId()
+  }
+
+  @Get(':orderId')
+  @UseGuards(AuthGuard)
+  public async findOrder(
+    @Param('orderId') orderId: string,
+  ): Promise<OrderInterface> {
+    return await this.orderService.findOrderById(orderId)
   }
 
   @Delete(':orderId')
   @UseGuards(AuthGuard)
-  async deleteProduct(
-    @Param('orderId') productId: string,
+  public async deleteOrder(
+    @Param('orderId') orderId: string,
     @User() currentUser: UserInterface,
   ) {
-    return await this.orderService.deleteOrder(productId, currentUser);
+    return await this.orderService.deleteOrder(orderId, currentUser);
   }
 
   @Put(':orderId')
   @UseGuards(AuthGuard)
-  async makeOrderReady(@Param('orderId') productId: string): Promise<OrderInterface> {
+  public async makeOrderReady(@Param('orderId') productId: string): Promise<OrderInterface> {
     return await this.orderService.makeOrderReady(productId);
   }
 }

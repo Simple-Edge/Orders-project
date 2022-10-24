@@ -7,7 +7,7 @@ import { JWT_SECRET } from '../../config';
 
 @Injectable()
 export class AuthMiddleWare implements NestMiddleware {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   async use(req: ExpressRequestInterface, res: Response, next: NextFunction) {
     if (!req.headers.authorization) {
@@ -20,6 +20,11 @@ export class AuthMiddleWare implements NestMiddleware {
       const decode = verify(token, JWT_SECRET);
       const user = await this.userService.findById(decode._id);
       req.user = user;
+      if (user) {
+        user.lastActivity = new Date();
+        await user.save()
+      }
+
       return next();
     } catch {
       req.user = null;
